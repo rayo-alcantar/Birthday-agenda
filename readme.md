@@ -77,7 +77,16 @@ A continuación, se describe la función de cada archivo:
    - `TELEGRAM_BOT_TOKEN` con el token de su bot de Telegram.
    - `TELEGRAM_CHAT_ID` con el **Chat ID** en donde se enviarán los mensajes.
 
-2. Ajuste los umbrales de días en las listas:
+#### sacar datos de telegram.
+
+1.1. Inicia una combersación con @BotFather
+1.2. Escribe el comando /newbot
+1.3. Responde la pregunta que te hace.
+1.4. Te dará tu key de bot.
+1.5. Inicia el bot @userinfobot
+1.6. Te dará tu user id.
+
+2. Ajuste los umbrales de días en las lista
    - `IMPORTANCIA_1`
    - `IMPORTANCIA_2`
    - `IMPORTANCIA_3`  
