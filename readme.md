@@ -180,3 +180,7 @@ Para programar la ejecución automática cada hora en un servidor Ubuntu (o en s
 - Para agregar o eliminar cumpleaños, simplemente actualiza el archivo `data/fechas.csv` y verifica la columna de importancia.
 
 ¡Listo! Ahora cuentas con un sistema profesional y modular para la administración de notificaciones de cumpleaños, con soporte para ejecución automática en `systemd` y compatibilidad con bots de Telegram.
+
+## ¿Te gustó la herramienta?
+
+Si te gustó la herramienta, podrías considerar ̀[hacerme una donación](https://www.paypal.com/paypalme/rayoalcantar?country.x=MX&locale.x=es_XC)
