@@ -6,9 +6,9 @@ Se ejecuta diariamente y determina si debe:
 - Enviar recordatorios escalonados según la proximidad de los cumpleaños.
 """
 
-import datetime  # 🔹 Esto estaba faltando
+import datetime
 import logging
-from procesamiento import procesar_notificaciones, cargar_cumpleaños
+from procesamiento import procesar_notificaciones, cargar_cumpleaños, registrar_notificacion
 from notificaciones import enviar_mensaje
 
 # Configuración del logging
@@ -22,9 +22,18 @@ logging.basicConfig(
 def generar_mensaje_mensual():
 	"""
 	Genera y envía la lista de cumpleaños del mes si hoy es el día 1.
-	Ahora los ordena del primero al último y usa un formato más legible.
+	Ordena la lista por día y utiliza un formato legible.
+	
+	Antes de enviar, se registra la notificación mensual usando un identificador especial.
+	Si ya se envió en el mes actual, se omite el envío.
 	"""
 	hoy = datetime.date.today()
+	# Registrar la notificación mensual con un identificador especial ("lista_mensual")
+	# Se utiliza -1 como valor fijo para distinguirla de las notificaciones de cumpleaños
+	if not registrar_notificacion("lista_mensual", -1):
+		logging.info("La lista mensual ya fue enviada.")
+		return
+
 	mes_actual = hoy.strftime("%m")  # Formato MM
 	nombres_meses = {
 		"01": "enero", "02": "febrero", "03": "marzo", "04": "abril",
@@ -32,13 +41,14 @@ def generar_mensaje_mensual():
 		"09": "septiembre", "10": "octubre", "11": "noviembre", "12": "diciembre"
 	}
 
+	# Filtrar cumpleaños del mes actual y extraer el día (según el formato MM/DD)
 	cumpleaños_mes = [
 		{"nombre": c["nombre"], "dia": int(c["fecha"].split("/")[1])}
 		for c in cargar_cumpleaños()
 		if c["fecha"].startswith(mes_actual)
 	]
 
-	# Ordenamos por día del mes
+	# Ordenar la lista por el día del mes
 	cumpleaños_mes.sort(key=lambda x: x["dia"])
 
 	if cumpleaños_mes:
@@ -59,7 +69,7 @@ def ejecutar():
 	hoy = datetime.date.today()
 
 	if hoy.day == 1:
-		logging.info("📆 Hoy es el primer día del mes. Enviando lista mensual...")
+		logging.info("📆 Hoy es el primer día del mes. Procesando lista mensual...")
 		generar_mensaje_mensual()
 
 	logging.info("🔍 Procesando notificaciones diarias...")
